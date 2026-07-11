@@ -6,14 +6,64 @@
   "playlists": [
    
   {
-  "id": "grade1-المتجهات",
+  "id": "fgf",
   "gradeId": "grade1",
   "title": "المتجهات",
   "description": "وحدة المتجهات كاملة",
-  "videos": [{"id": "oiwVVl3ZV1Q", "title": "الدرس الاول المتجهات", "duration": "7:00"}]
-  }
+  "videos": [
+    {"id": "oiwVVl3ZV1Q", "title": "الدرس الاول المتجهات", "duration": "7:00"}
+  ]
+  },
+  {
+  "id": "dfsd",
+  "gradeId": "grade1",
+  "title": "test 1",
+  "description": "2",
+  "videos": [
+    {"id": "oiwVVl3ZV1Q", "title": "الدرس الاول المتجهات", "duration": "7:00"}
+  ]
+  },
+  {
+  "id": "sdfd",
+  "gradeId": "grade1",
+  "title": "test 2",
+  "description": "3",
+  "videos": [
+    {"id": "oiwVVl3ZV1Q", "title": "الدرس الاول المتجهات", "duration": "7:00"}
+  ]
+  },
+  {
+  "id": "dfsdf",
+  "gradeId": "grade1",
+  "title": "test 3",
+  "description": "4",
+  "videos": [
+    {"id": "oiwVVl3ZV1Q", "title": "الدرس الاول المتجهات", "duration": "7:00"}
+  ]
+  },
+  {
+  "id": "EQUATION",
+  "gradeId": "grade2",
+  "title": "playlist for sec2",
+  "description": "4",
+  "videos": [
+    {"id": "oiwVVl3ZV1Q", "title": "الدرس الاول القيمة المطلقة", "duration": "7:00"}
+  ]
+  },
+  {
+  "id": "grade1-playlist-for-test-and-prevernt-duplication",
+  "gradeId": "grade1",
+  "title": "playlist for test and prevernt duplication",
+  "description": "jsut for testing",
+  "videos": [
+    {
+      "id": "vty6C7vVFto",
+      "title": "a video for laughter",
+      "duration": "10"
+    }
+  ]
+}
   
-
   ]
 
 

@@ -7,7 +7,7 @@ export default function Header() {
       <div className="max-w-5xl mx-auto px-5 h-16 flex items-center justify-between">
         <Link to="/" className="flex items-center gap-2.5">
           <span className="w-8 h-8 rounded-lg bg-brand text-white flex items-center justify-center font-bold text-sm">م</span>
-          <span className="font-bold text-lg text-neutral-900">منصة الرياضيات</span>
+          <span className="font-bold text-lg text-neutral-900">mind it with Abdallah Qapeel</span>
         </Link>
         <Link
           to="/admin"

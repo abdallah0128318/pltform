@@ -1,6 +1,8 @@
 // src/data/dataStore.js
 // Combines your base sections.json with any videos you add through the admin form.
 // Locally-added videos are saved in this browser only, until you copy them into sections.json.
+// Anything already present in sections.json (matched by id) is automatically ignored
+// from the local copy, so you never get duplicates after pasting a snippet in manually.
 import baseData from './sections.json'
 
 const STORAGE_KEY = 'mh_custom_data'
@@ -10,7 +12,11 @@ function loadCustomData() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY)
     if (!raw) return { extraPlaylists: [], addedVideos: {} }
-    return JSON.parse(raw)
+    const parsed = JSON.parse(raw)
+    return {
+      extraPlaylists: parsed.extraPlaylists || [],
+      addedVideos: parsed.addedVideos || {},
+    }
   } catch {
     return { extraPlaylists: [], addedVideos: {} }
   }
@@ -32,13 +38,19 @@ export function getGrades() {
 
 export function getPlaylists() {
   const custom = loadCustomData()
+  const basePlaylistIds = new Set(baseData.playlists.map(p => p.id))
 
-  const merged = baseData.playlists.map(p => ({
-    ...p,
-    videos: [...p.videos, ...(custom.addedVideos[p.id] || [])],
-  }))
+  // Merge base playlists with any locally-added videos, skipping ones already in sections.json
+  const merged = baseData.playlists.map(p => {
+    const baseVideoIds = new Set(p.videos.map(v => v.id))
+    const localExtras = (custom.addedVideos[p.id] || []).filter(v => !baseVideoIds.has(v.id))
+    return { ...p, videos: [...p.videos, ...localExtras] }
+  })
 
-  return [...merged, ...custom.extraPlaylists]
+  // Only keep locally-created playlists that aren't already in sections.json
+  const newLocalPlaylists = custom.extraPlaylists.filter(p => !basePlaylistIds.has(p.id))
+
+  return [...merged, ...newLocalPlaylists]
 }
 
 export function getPlaylistById(id) {

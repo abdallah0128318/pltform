@@ -1,0 +1,20 @@
+{
+  "grades": [
+    { "id": "grade1", "title": "الصف الأول الثانوي" },
+    { "id": "grade2", "title": "الصف الثاني الثانوي" }
+  ],
+  "playlists": [
+   
+  {
+  "id": "grade1-المتجهات",
+  "gradeId": "grade1",
+  "title": "المتجهات",
+  "description": "وحدة المتجهات كاملة",
+  "videos": [{"id": "oiwVVl3ZV1Q", "title": "الدرس الاول المتجهات", "duration": "7:00"}]
+  }
+  
+
+  ]
+
+
+}

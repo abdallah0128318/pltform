@@ -1,0 +1,15 @@
+/* src/index.css */
+@import "tailwindcss";
+
+@theme {
+  --color-brand: #FF3B1F;
+  --color-brand-hover: #E62E14;
+  --color-surface: #FAFAFA;
+  --color-card: #FFFFFF;
+  --color-border: #E5E5E5;
+}
+
+html, body {
+  direction: rtl;
+  font-family: 'Cairo', 'Segoe UI', Tahoma, sans-serif;
+}

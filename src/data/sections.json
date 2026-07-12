@@ -49,20 +49,7 @@
   "videos": [
     {"id": "oiwVVl3ZV1Q", "title": "الدرس الاول القيمة المطلقة", "duration": "7:00"}
   ]
-  },
-  {
-  "id": "grade1-playlist-for-test-and-prevernt-duplication",
-  "gradeId": "grade1",
-  "title": "playlist for test and prevernt duplication",
-  "description": "jsut for testing",
-  "videos": [
-    {
-      "id": "vty6C7vVFto",
-      "title": "a video for laughter",
-      "duration": "10"
-    }
-  ]
-}
+  }
   
   ]
 

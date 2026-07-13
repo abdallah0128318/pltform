@@ -1,5 +1,5 @@
 // src/App.jsx
-import { HashRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import Home from './pages/Home'
@@ -9,8 +9,8 @@ import AdminAddVideo from './pages/AdminAddVideo'
 
 export default function App() {
   return (
-    <HashRouter>
-      <div className="min-h-screen flex flex-col bg-surface">
+    <BrowserRouter>
+      <div className="min-h-screen flex flex-col bg-bg">
         <Header />
         <div className="flex-1">
           <Routes>
@@ -22,6 +22,6 @@ export default function App() {
         </div>
         <Footer />
       </div>
-    </HashRouter>
+    </BrowserRouter>
   )
 }

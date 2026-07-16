@@ -6,6 +6,7 @@ import Home from './pages/Home'
 import Playlist from './pages/Playlist'
 import Watch from './pages/Watch'
 import AdminAddVideo from './pages/AdminAddVideo'
+import GraphTool from './pages/GraphTool'
 
 export default function App() {
   return (
@@ -18,6 +19,7 @@ export default function App() {
             <Route path="/playlist/:id" element={<Playlist />} />
             <Route path="/video/:id" element={<Watch />} />
             <Route path="/admin" element={<AdminAddVideo />} />
+            <Route path="/graph" element={<GraphTool />} />
           </Routes>
         </div>
         <Footer />

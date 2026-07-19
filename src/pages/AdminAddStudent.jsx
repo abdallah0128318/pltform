@@ -1,7 +1,7 @@
 // src/pages/AdminAddStudent.jsx
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { ADMIN_PASSWORD, ADMIN_AUTH_KEY } from '../utils/adminAuth'
+import { ADMIN_PASSWORD, isAdminAuthed, setAdminAuthed } from '../utils/adminAuth'
 import { getStudents, addStudent, clearCustomStudents } from '../data/studentStore'
 
 const inputClass =
@@ -12,7 +12,7 @@ function generateCode() {
 }
 
 export default function AdminAddStudent() {
-  const [authed, setAuthed] = useState(sessionStorage.getItem(ADMIN_AUTH_KEY) === 'true')
+  const [authed, setAuthed] = useState(isAdminAuthed())
   const [passwordInput, setPasswordInput] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState('')
@@ -20,7 +20,7 @@ export default function AdminAddStudent() {
   function handleLogin(e) {
     e.preventDefault()
     if (passwordInput === ADMIN_PASSWORD) {
-      sessionStorage.setItem(ADMIN_AUTH_KEY, 'true')
+      setAdminAuthed()
       setAuthed(true)
       setError('')
     } else {
@@ -67,7 +67,8 @@ export default function AdminAddStudent() {
             {error && <p className="text-sm text-brand">{error}</p>}
             <button
               type="submit"
-              className="gradient-brand text-white rounded-xl py-2.5 text-sm font-semibold hover:shadow-[0_6px_24px_-6px_rgba(255,59,127,0.55)] transition"
+              style={{ background: 'linear-gradient(135deg, #ff6b35, #ff3b7f)' }}
+              className="text-white rounded-xl py-3 text-sm font-bold shadow-[0_6px_24px_-6px_rgba(255,59,127,0.55)] hover:brightness-110 active:brightness-95 transition"
             >
               دخول
             </button>
@@ -163,26 +164,13 @@ function AddStudentForm() {
       <form onSubmit={handleSubmit} className="glass-card border border-border rounded-2xl p-5 flex flex-col gap-4">
         <div>
           <label className="block text-sm font-semibold text-text-secondary mb-1.5">اسم الطالب</label>
-          <input
-            type="text"
-            value={name}
-            onChange={e => setName(e.target.value)}
-            placeholder="مثال: أحمد محمد"
-            className={inputClass}
-          />
+          <input type="text" value={name} onChange={e => setName(e.target.value)} placeholder="مثال: أحمد محمد" className={inputClass} />
         </div>
 
         <div>
           <label className="block text-sm font-semibold text-text-secondary mb-1.5">كود الطالب</label>
           <div className="flex gap-2">
-            <input
-              type="text"
-              value={code}
-              onChange={e => setCode(e.target.value)}
-              placeholder="1234"
-              dir="ltr"
-              className={inputClass}
-            />
+            <input type="text" value={code} onChange={e => setCode(e.target.value)} placeholder="1234" dir="ltr" className={inputClass} />
             <button
               type="button"
               onClick={() => setCode(generateCode())}
@@ -195,7 +183,8 @@ function AddStudentForm() {
 
         <button
           type="submit"
-          className="gradient-brand text-white rounded-xl py-2.5 text-sm font-semibold hover:shadow-[0_6px_24px_-6px_rgba(255,59,127,0.55)] transition"
+          style={{ background: 'linear-gradient(135deg, #ff6b35, #ff3b7f)' }}
+          className="text-white rounded-xl py-2.5 text-sm font-semibold shadow-[0_6px_24px_-6px_rgba(255,59,127,0.55)] hover:brightness-110 transition"
         >
           إضافة الطالب
         </button>
@@ -205,10 +194,7 @@ function AddStudentForm() {
         <div className="glass-card border border-border rounded-2xl p-5 mt-5">
           <div className="flex items-center justify-between mb-2">
             <h3 className="text-sm font-bold text-text">تم إضافة الطالب محليًا ✅</h3>
-            <button
-              onClick={copySnippet}
-              className="text-xs font-semibold text-brand hover:text-brand-hover"
-            >
+            <button onClick={copySnippet} className="text-xs font-semibold text-brand hover:text-brand-hover">
               {copied ? 'تم النسخ' : 'نسخ الكود'}
             </button>
           </div>

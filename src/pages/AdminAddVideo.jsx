@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { extractYouTubeId } from '../utils/youtube'
-import { ADMIN_PASSWORD, ADMIN_AUTH_KEY as AUTH_KEY } from '../utils/adminAuth'
+import { ADMIN_PASSWORD, isAdminAuthed, setAdminAuthed } from '../utils/adminAuth'
 import {
   getGrades,
   getPlaylists,
@@ -15,7 +15,7 @@ const inputClass =
   'w-full bg-surface border border-border rounded-xl px-4 py-2.5 text-sm text-text placeholder:text-text-muted focus:outline-none focus:border-brand transition'
 
 export default function AdminAddVideo() {
-  const [authed, setAuthed] = useState(sessionStorage.getItem(AUTH_KEY) === 'true')
+  const [authed, setAuthed] = useState(isAdminAuthed())
   const [passwordInput, setPasswordInput] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState('')
@@ -23,7 +23,7 @@ export default function AdminAddVideo() {
   function handleLogin(e) {
     e.preventDefault()
     if (passwordInput === ADMIN_PASSWORD) {
-      sessionStorage.setItem(AUTH_KEY, 'true')
+      setAdminAuthed()
       setAuthed(true)
       setError('')
     } else {
@@ -70,7 +70,8 @@ export default function AdminAddVideo() {
             {error && <p className="text-sm text-brand">{error}</p>}
             <button
               type="submit"
-              className="gradient-brand text-white rounded-xl py-2.5 text-sm font-semibold hover:shadow-[0_6px_24px_-6px_rgba(255,59,127,0.55)] transition"
+              style={{ background: 'linear-gradient(135deg, #ff6b35, #ff3b7f)' }}
+              className="text-white rounded-xl py-3 text-sm font-bold shadow-[0_6px_24px_-6px_rgba(255,59,127,0.55)] hover:brightness-110 active:brightness-95 transition"
             >
               دخول
             </button>
@@ -171,9 +172,7 @@ function AddVideoForm() {
   }
 
   function handleClearLocalData() {
-    const sure = confirm(
-      'هيمسح كل الفيديوهات/القوائم اللي جربتها محليًا وماحطتهاش لسه في sections.json. متأكد؟'
-    )
+    const sure = confirm('هيمسح كل الفيديوهات/القوائم اللي جربتها محليًا وماحطتهاش لسه في sections.json. متأكد؟')
     if (!sure) return
     clearCustomData()
     setPlaylists(getPlaylists())
@@ -208,22 +207,14 @@ function AddVideoForm() {
       <form onSubmit={handleSubmit} className="glass-card border border-border rounded-2xl p-5 flex flex-col gap-4">
         <div>
           <label className="block text-sm font-semibold text-text-secondary mb-1.5">الصف</label>
-          <select
-            value={gradeId}
-            onChange={e => { setGradeId(e.target.value); setPlaylistChoice('') }}
-            className={inputClass}
-          >
+          <select value={gradeId} onChange={e => { setGradeId(e.target.value); setPlaylistChoice('') }} className={inputClass}>
             {getGrades().map(g => <option key={g.id} value={g.id}>{g.title}</option>)}
           </select>
         </div>
 
         <div>
           <label className="block text-sm font-semibold text-text-secondary mb-1.5">القائمة</label>
-          <select
-            value={playlistChoice}
-            onChange={e => setPlaylistChoice(e.target.value)}
-            className={inputClass}
-          >
+          <select value={playlistChoice} onChange={e => setPlaylistChoice(e.target.value)} className={inputClass}>
             <option value="">+ قائمة جديدة</option>
             {gradePlaylists.map(p => <option key={p.id} value={p.id}>{p.title}</option>)}
           </select>
@@ -233,64 +224,34 @@ function AddVideoForm() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <label className="block text-sm font-semibold text-text-secondary mb-1.5">اسم القائمة الجديدة</label>
-              <input
-                type="text"
-                value={newPlaylistTitle}
-                onChange={e => setNewPlaylistTitle(e.target.value)}
-                placeholder="مثال: الإحصاء"
-                className={inputClass}
-              />
+              <input type="text" value={newPlaylistTitle} onChange={e => setNewPlaylistTitle(e.target.value)} placeholder="مثال: الإحصاء" className={inputClass} />
             </div>
             <div>
               <label className="block text-sm font-semibold text-text-secondary mb-1.5">وصف القائمة (اختياري)</label>
-              <input
-                type="text"
-                value={newPlaylistDesc}
-                onChange={e => setNewPlaylistDesc(e.target.value)}
-                className={inputClass}
-              />
+              <input type="text" value={newPlaylistDesc} onChange={e => setNewPlaylistDesc(e.target.value)} className={inputClass} />
             </div>
           </div>
         )}
 
         <div>
           <label className="block text-sm font-semibold text-text-secondary mb-1.5">رابط الفيديو من يوتيوب</label>
-          <input
-            type="text"
-            value={videoUrl}
-            onChange={e => setVideoUrl(e.target.value)}
-            placeholder="https://www.youtube.com/watch?v=..."
-            className={inputClass}
-            dir="ltr"
-          />
+          <input type="text" value={videoUrl} onChange={e => setVideoUrl(e.target.value)} placeholder="https://www.youtube.com/watch?v=..." className={inputClass} dir="ltr" />
         </div>
 
         <div>
           <label className="block text-sm font-semibold text-text-secondary mb-1.5">عنوان الفيديو</label>
-          <input
-            type="text"
-            value={videoTitle}
-            onChange={e => setVideoTitle(e.target.value)}
-            placeholder="مثال: الدرس 3: المتباينات"
-            className={inputClass}
-          />
+          <input type="text" value={videoTitle} onChange={e => setVideoTitle(e.target.value)} placeholder="مثال: الدرس 3: المتباينات" className={inputClass} />
         </div>
 
         <div>
           <label className="block text-sm font-semibold text-text-secondary mb-1.5">مدة الفيديو (اختياري)</label>
-          <input
-            type="text"
-            value={duration}
-            onChange={e => setDuration(e.target.value)}
-            placeholder="12:30"
-            className={inputClass}
-            dir="ltr"
-          />
+          <input type="text" value={duration} onChange={e => setDuration(e.target.value)} placeholder="12:30" className={inputClass} dir="ltr" />
         </div>
 
         <button
           type="submit"
-          className="gradient-brand text-white rounded-xl py-2.5 text-sm font-semibold hover:shadow-[0_6px_24px_-6px_rgba(255,59,127,0.55)] transition"
+          style={{ background: 'linear-gradient(135deg, #ff6b35, #ff3b7f)' }}
+          className="text-white rounded-xl py-2.5 text-sm font-semibold shadow-[0_6px_24px_-6px_rgba(255,59,127,0.55)] hover:brightness-110 transition"
         >
           إضافة الفيديو
         </button>
@@ -300,10 +261,7 @@ function AddVideoForm() {
         <div className="glass-card border border-border rounded-2xl p-5 mt-5">
           <div className="flex items-center justify-between mb-2">
             <h3 className="text-sm font-bold text-text">تم إضافة الفيديو محليًا ✅</h3>
-            <button
-              onClick={copySnippet}
-              className="text-xs font-semibold text-brand hover:text-brand-hover"
-            >
+            <button onClick={copySnippet} className="text-xs font-semibold text-brand hover:text-brand-hover">
               {copied ? 'تم النسخ' : 'نسخ الكود'}
             </button>
           </div>

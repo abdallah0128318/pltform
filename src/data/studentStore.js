@@ -1,7 +1,7 @@
 // src/data/studentStore.js
 // Combines the base students.json with any students added locally through the
-// admin form, same pattern as dataStore.js for videos. Also handles the current
-// visitor's login state (which student code they entered, if any).
+// admin form. Also handles the current visitor's login state (which student
+// code they entered, if any) — used both for gating pages and for the watermark.
 import baseData from './students.json'
 
 const STORAGE_KEY = 'mh_custom_students'
@@ -56,7 +56,6 @@ export function findStudentByCode(code) {
   return getStudents().find(s => s.code === code.trim()) || null
 }
 
-// Throws an Error('DUPLICATE_CODE') if the code already exists — caller must handle it.
 export function addStudent(student) {
   if (codeExists(student.code)) {
     throw new Error('DUPLICATE_CODE')
@@ -77,6 +76,12 @@ export function isStudentAuthed() {
   const code = localStorage.getItem(AUTH_KEY)
   if (!code) return false
   return codeExists(code)
+}
+
+// Returns the currently logged-in student's raw code, or null if not logged in.
+// Used for the anti-recording watermark on the video player.
+export function getCurrentStudentCode() {
+  return localStorage.getItem(AUTH_KEY) || null
 }
 
 export function loginStudent(code) {

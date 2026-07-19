@@ -39,7 +39,8 @@ export default function StudentGate({ children }) {
             {error && <p className="text-sm text-brand">{error}</p>}
             <button
               type="submit"
-              className="gradient-brand text-white rounded-xl py-2.5 text-sm font-semibold hover:shadow-[0_6px_24px_-6px_rgba(255,59,127,0.55)] transition"
+              style={{ background: 'linear-gradient(135deg, #ff6b35, #ff3b7f)' }}
+              className="text-white rounded-xl py-3 text-sm font-bold shadow-[0_6px_24px_-6px_rgba(255,59,127,0.55)] hover:brightness-110 active:brightness-95 transition"
             >
               دخول
             </button>
